@@ -3,7 +3,7 @@ package ir.navaco.kotlincoroutines
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,10 +14,21 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
 
+            //IO, Main, Default
+            CoroutineScope(Dispatchers.IO)
+                .launch {
 
+                    fakeApiRequest()
+
+                }
         }
 
+    }
 
+    private suspend fun fakeApiRequest() {
+
+        val result1 = getResult1FromApi()
+        println("debug:${result1}");
     }
 
     private suspend fun getResult1FromApi(): String {
