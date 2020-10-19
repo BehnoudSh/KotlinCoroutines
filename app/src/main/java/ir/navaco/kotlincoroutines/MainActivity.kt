@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,10 +27,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun fakeApiRequest() {
-
         val result1 = getResult1FromApi()
         println("debug:${result1}");
+        setTextOnMainThread(result1)
     }
+
+
+    private suspend fun setTextOnMainThread(input: String) {
+
+        withContext(Main) {
+
+            val newText = text.text.toString() + "\n${input}"
+            text.text = newText
+
+        }
+    }
+
 
     private suspend fun getResult1FromApi(): String {
 
